@@ -16,9 +16,11 @@ export default function Home() {
     email: "",
     phone: "",
     message: "",
-    website: ""
+    website: "",
   });
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
+    "idle",
+  );
 
   const jsonLd = useMemo(() => {
     return {
@@ -28,7 +30,7 @@ export default function Home() {
       description:
         "خدمات طراحی لباس سینما و تئاتر: کانسپت، طراحی کاراکتر، انتخاب پارچه و متریال، دوخت و اجرا.",
       areaServed: "IR",
-      inLanguage: "fa"
+      inLanguage: "fa",
     };
   }, []);
 
@@ -37,11 +39,10 @@ export default function Home() {
     setStatus("sending");
 
     try {
-      const base = process.env.NEXT_PUBLIC_API_BASE || "";
-      const res = await fetch(`${base}/contact`, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+        body: JSON.stringify(form),
       });
 
       if (!res.ok) throw new Error("Request failed");
@@ -65,9 +66,15 @@ export default function Home() {
             طراحی لباس سینما و تئاتر
           </a>
           <div className="flex gap-4 text-sm">
-            <a className="hover:underline" href="#contact">تماس با من</a>
-            <a className="hover:underline" href="#about">درباره من</a>
-            <a className="hover:underline" href="#portfolio">نمونه‌کارها</a>
+            <a className="hover:underline" href="#contact">
+              تماس با من
+            </a>
+            <a className="hover:underline" href="#about">
+              درباره من
+            </a>
+            <a className="hover:underline" href="#portfolio">
+              نمونه‌کارها
+            </a>
           </div>
         </nav>
       </header>
@@ -77,13 +84,16 @@ export default function Home() {
           طراحی لباس سینما و تئاتر با تمرکز بر روایت، کاراکتر و هویت بصری
         </h1>
         <p className="max-w-3xl text-base leading-8 text-neutral-700">
-          اگر برای فیلم، سریال یا نمایش به طراح لباس نیاز دارید، این صفحه برای معرفی خدمات
-          طراحی لباس صحنه، روند کاری و نمونه‌کارها آماده شده است. هدف من ارائه طراحی دقیق،
-          قابل اجرا و هماهنگ با جهان اثر است.
+          اگر برای فیلم، سریال یا نمایش به طراح لباس نیاز دارید، این صفحه برای
+          معرفی خدمات طراحی لباس صحنه، روند کاری و نمونه‌کارها آماده شده است.
+          هدف من ارائه طراحی دقیق، قابل اجرا و هماهنگ با جهان اثر است.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="#contact" className="rounded-xl bg-black px-4 py-2 text-white">
+          <a
+            href="#contact"
+            className="rounded-xl bg-black px-4 py-2 text-white"
+          >
             ثبت درخواست طراحی
           </a>
           <a href="#portfolio" className="rounded-xl border px-4 py-2">
@@ -95,9 +105,10 @@ export default function Home() {
       <section id="about" className="mb-14 scroll-mt-24">
         <h2 className="mb-3 text-2xl font-bold">درباره من</h2>
         <p className="max-w-3xl leading-8 text-neutral-700">
-          در طراحی لباس سینما و تئاتر، از پژوهش دوره‌ای و تحلیل فیلمنامه تا طراحی کانسپت و انتخاب
-          متریال پیش می‌روم. خروجی نهایی باید هم از نظر زیبایی‌شناسی درست باشد و هم در اجرا، نور،
-          حرکت بازیگر و نیازهای تولید پاسخگو باشد.
+          در طراحی لباس سینما و تئاتر، از پژوهش دوره‌ای و تحلیل فیلمنامه تا
+          طراحی کانسپت و انتخاب متریال پیش می‌روم. خروجی نهایی باید هم از نظر
+          زیبایی‌شناسی درست باشد و هم در اجرا، نور، حرکت بازیگر و نیازهای تولید
+          پاسخگو باشد.
         </p>
 
         <ul className="mt-5 list-disc space-y-2 pr-5 text-neutral-700">
@@ -110,7 +121,8 @@ export default function Home() {
       <section id="portfolio" className="mb-14 scroll-mt-24">
         <h2 className="mb-3 text-2xl font-bold">نمونه‌کارها</h2>
         <p className="max-w-3xl leading-8 text-neutral-700">
-          اینجا ۳ پروژه نمونه قرار می‌گیرد. بعداً می‌توانید تصویر، توضیحات و نقش شما در پروژه را اضافه کنید.
+          اینجا ۳ پروژه نمونه قرار می‌گیرد. بعداً می‌توانید تصویر، توضیحات و نقش
+          شما در پروژه را اضافه کنید.
         </p>
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -118,7 +130,8 @@ export default function Home() {
             <article key={t} className="rounded-2xl border p-4 shadow-sm">
               <h3 className="mb-2 font-semibold">{t}</h3>
               <p className="text-sm leading-7 text-neutral-700">
-                توضیح کوتاه درباره طراحی لباس، دوره زمانی، سبک بصری و چالش‌های اجرا.
+                توضیح کوتاه درباره طراحی لباس، دوره زمانی، سبک بصری و چالش‌های
+                اجرا.
               </p>
             </article>
           ))}
@@ -128,14 +141,20 @@ export default function Home() {
       <section id="contact" className="scroll-mt-24">
         <h2 className="mb-3 text-2xl font-bold">تماس با من</h2>
         <p className="mb-6 max-w-3xl leading-8 text-neutral-700">
-          برای سفارش طراحی لباس سینما و تئاتر، اطلاعات پروژه را ارسال کنید. (ایمیل و شماره تماس اختیاری/ضروری مطابق نیاز شما قابل تغییر است.)
+          برای سفارش طراحی لباس سینما و تئاتر، اطلاعات پروژه را ارسال کنید.
+          (ایمیل و شماره تماس اختیاری/ضروری مطابق نیاز شما قابل تغییر است.)
         </p>
 
-        <form onSubmit={submit} className="max-w-xl space-y-4 rounded-2xl border p-5 shadow-sm">
+        <form
+          onSubmit={submit}
+          className="max-w-xl space-y-4 rounded-2xl border p-5 shadow-sm"
+        >
           {/* honeypot */}
           <input
             value={form.website}
-            onChange={(e) => setForm((s) => ({ ...s, website: e.target.value }))}
+            onChange={(e) =>
+              setForm((s) => ({ ...s, website: e.target.value }))
+            }
             className="hidden"
             autoComplete="off"
             tabIndex={-1}
@@ -166,7 +185,9 @@ export default function Home() {
             required
             placeholder="توضیح پروژه (ژانر، زمان‌بندی، تعداد کاراکتر، سبک...)"
             value={form.message}
-            onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
+            onChange={(e) =>
+              setForm((s) => ({ ...s, message: e.target.value }))
+            }
             className="h-32 w-full rounded-xl border px-3 py-2"
           />
 
@@ -181,7 +202,9 @@ export default function Home() {
             <p className="text-sm text-green-700">درخواست شما ثبت شد.</p>
           )}
           {status === "error" && (
-            <p className="text-sm text-red-700">ارسال ناموفق بود. دوباره تلاش کنید.</p>
+            <p className="text-sm text-red-700">
+              ارسال ناموفق بود. دوباره تلاش کنید.
+            </p>
           )}
         </form>
       </section>
