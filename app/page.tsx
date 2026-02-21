@@ -35,24 +35,6 @@ export default function Home() {
     };
   }, []);
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("sending");
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (!res.ok) throw new Error("Request failed");
-      setStatus("ok");
-      setForm({ name: "", email: "", phone: "", message: "", website: "" });
-    } catch {
-      setStatus("error");
-    }
-  }
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
