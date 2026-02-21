@@ -27,3 +27,8 @@ export async function POST(req: Request) {
     }
   });
 }
+
+
+export async function GET() {
+  return new Response("OK");
+}
