@@ -1,7 +1,7 @@
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const base = process.env.API_BASE; // server-only (بدون NEXT_PUBLIC)
+  const base = process.env.NEXT_PUBLIC_API_BASE; // server-only (بدون NEXT_PUBLIC)
   if (!base) {
     return new Response(JSON.stringify({ error: "API_BASE is not set" }), {
       status: 500,
