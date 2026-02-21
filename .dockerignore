@@ -1,33 +1,120 @@
-# dependencies
-node_modules
+# -----------------------------------------------------------------------------
+# .dockerignore (Next.js + pnpm)
+#
+# Goal:
+# - Speed up `docker build` by shrinking the build context sent to the daemon
+# - Prevent accidentally shipping local artifacts / secrets into the image
+#
+# Notes:
+# - Lines starting with `#` are comments
+# - Negation patterns (`!`) re-include files that were ignored earlier
+# -----------------------------------------------------------------------------
 
-# next build output
+
+# -----------------------------------------------------------------------------
+# Dependencies (never copy host-installed deps into image)
+# -----------------------------------------------------------------------------
+node_modules
+**/node_modules
+
+# pnpm / npm / yarn caches (not needed inside image; keep builds smaller)
+.pnpm-store
+**/.pnpm-store
+.npm
+.yarn/cache
+.cache
+
+
+# -----------------------------------------------------------------------------
+# Next.js build outputs & caches (should be built inside Docker)
+# Next.js’ own example ignores `.next` and `node_modules`. :contentReference[oaicite:1]{index=1}
+# -----------------------------------------------------------------------------
 .next
 out
+.turbo
+.vercel
 
-# logs
+
+# -----------------------------------------------------------------------------
+# Logs
+# -----------------------------------------------------------------------------
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# local env files (do NOT bake secrets into the image)
+
+# -----------------------------------------------------------------------------
+# Test / coverage artifacts
+# -----------------------------------------------------------------------------
+coverage
+.nyc_output
+
+
+# -----------------------------------------------------------------------------
+# Local environment files & secrets (IMPORTANT)
+#
+# Ignore ALL .env files by default (they often contain secrets).
+# Re-include ONLY safe, non-secret templates/config you intentionally keep.
+#
+# You use `env-cmd` and rely on `.env-cmdrc`, so we re-include it.
+# -----------------------------------------------------------------------------
 .env
 .env.*
 !.env.example
+!.env-cmdrc
 
-# git
-.git
-.gitignore
+# Common secret material (never needed in build context)
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
 
-# editor / OS
+
+# -----------------------------------------------------------------------------
+# Editor / OS clutter
+# -----------------------------------------------------------------------------
 .DS_Store
 Thumbs.db
-.vscode
+ehthumbs.db
+*.swp
+*.swo
 .idea
+.vscode
 
-# tests / coverage
-coverage
 
-# misc
+# -----------------------------------------------------------------------------
+# VCS / CI / local tooling (not required for building the app)
+# -----------------------------------------------------------------------------
+.git
+.gitignore
+.gitattributes
+.github
+.gitlab
+.gitlab-ci.yml
+.husky
+.history
+
+
+# -----------------------------------------------------------------------------
+# TypeScript / tooling build junk
+# -----------------------------------------------------------------------------
+*.tsbuildinfo
+
+
+# -----------------------------------------------------------------------------
+# Docs (optional; safe to ignore to reduce context size)
+# -----------------------------------------------------------------------------
 README.md
+CHANGELOG*
+docs
+**/*.md
+
+
+# -----------------------------------------------------------------------------
+# Temporary folders
+# -----------------------------------------------------------------------------
+tmp
+temp

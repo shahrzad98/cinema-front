@@ -28,31 +28,36 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy app source
 COPY . .
 
-# Build
 ENV NODE_ENV=production
-RUN pnpm build
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Build (your script already applies env-cmd production)
+RUN pnpm build-production
 
 ############################
-# 3) runner - minimal runtime image
+# 3) runner - minimal runtime image (standalone)
 ############################
 FROM node:24.13.1-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
 # Create non-root user
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
-# Copy only what we need to run
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.ts ./next.config.ts
+# Copy standalone output (includes minimal server + traced deps)
+COPY --from=builder /app/.next/standalone ./
+
+# If you want the standalone server to serve these too (no CDN):
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
 
-# ... runner stage ...
 EXPOSE 3000
-CMD ["sh", "-c", "node node_modules/next/dist/bin/next start -p $PORT"]
+
+# Standalone runs with the generated server.js (instead of `next start`)
+CMD ["node", "server.js"]

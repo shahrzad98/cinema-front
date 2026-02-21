@@ -5,21 +5,28 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
-    "lint": "eslint"
+    "start": "next start -p",
+    "build-staging": "env-cmd -e staging -- next build",
+    "start-staging": "env-cmd -e staging -- next start",
+    "build-production": "env-cmd -e production -- next build",
+    "start-production": "env-cmd -e production -- next start -p",
+    "lint": "eslint",
+    "check-update-interactive": "ncu --interactive --format group"
   },
   "dependencies": {
-    "next": "16.0.10",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "next": "16.1.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "env-cmd": "^11.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.0.10",
+    "eslint-config-next": "16.1.6",
+    "npm-check-updates": "^19.4.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
